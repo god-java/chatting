@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.mnet.chat.dao.ChatMemberDAO">
+	<insert id="add_member" parameterType="int">
+		insert into chat_member
+		values(chat_member_seq.nextval,(select * from(select cr_num from chat_room where sender_num=#{param1} order by CR_MADE_DATE desc) where rownum=1),#{param2},default)
+	</insert>
+	<insert id="add_member_group" parameterType="ChatMemberDTO">
+		INSERT INTO CHAT_MEMBER
+		VALUES(CHAT_MEMBER_SEQ.NEXTVAL,(SELECT MAX(CR_NUM) FROM CHAT_ROOM WHERE CR_LEADER=#{cr_leader}), #{member_num}, default)
+	</insert>
+	<insert id="add_member_group_chat_room" parameterType="ChatMemberDTO">
+		INSERT INTO CHAT_MEMBER
+		VALUES(CHAT_MEMBER_SEQ.NEXTVAL,#{cr_num}, #{member_num}, default)
+	</insert>
+	<select id="cm_member_info" parameterType="int" resultType="ChatMemberDTO">
+		SELECT * FROM CHAT_MEMBER CM
+		JOIN MN_MEMBER MM
+		ON CM.MEMBER_NUM = MM.MEMBER_NUM
+		WHERE MM.MEMBER_NUM!=#{member_num}
+	</select>
+	<select id="cm_member_info2" resultType="ChatMemberDTO">
+		SELECT * FROM CHAT_MEMBER CM
+		JOIN MN_MEMBER MM
+		ON CM.MEMBER_NUM = MM.MEMBER_NUM
+		WHERE CM.CR_NUM=#{param1} AND  MM.MEMBER_NUM!=#{param2}
+	</select>
+	<select id="find_member_num" parameterType="int" resultType="int">
+		SELECT MEMBER_NUM FROM CHAT_MEMBER WHERE CR_NUM=#{cr_num}
+	</select>
+	<select id="find_chat_member" parameterType="int" resultType="ChatMemberDTO">
+		SELECT * FROM CHAT_MEMBER CM
+		JOIN MN_MEMBER MM
+		ON CM.MEMBER_NUM = MM.MEMBER_NUM
+		WHERE CR_NUM=#{cr_num}
+	</select>
+	<delete id="exit_room" parameterType="ChatMemberDTO">
+		DELETE FROM CHAT_MEMBER WHERE CR_NUM = #{cr_num} AND MEMBER_NUM = #{member_num}
+	</delete>
+	<select id="chat_member_info_cr_num" parameterType="int" resultType="ChatMemberDTO">
+		SELECT * FROM CHAT_MEMBER WHERE CR_NUM=#{cr_num}
+	</select>
+</mapper>

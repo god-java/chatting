@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.mnet.chat.dto.MemberDTO" alias="MemberDTO"/>
+		<typeAlias type="com.mnet.chat.dto.ChatContentDTO" alias="ChatContentDTO"/>
+		<typeAlias type="com.mnet.chat.dto.ChatMemberDTO" alias="ChatMemberDTO"/>
+		<typeAlias type="com.mnet.chat.dto.ChatRoomDTO" alias="ChatRoomDTO"/>
+		<typeAlias type="com.mnet.chat.dto.FriendDTO" alias="FriendDTO"/>
+	</typeAliases>
+</configuration>

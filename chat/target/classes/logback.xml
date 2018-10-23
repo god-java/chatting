@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="true">
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>
+				▶ %-5level %d{HH:mm:ss.SSS} [%thread] %logger[%method:%line] - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.sql.test" level="ERROR">
+	</logger>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="ERROR" />
+	</logger>
+	
+	<logger name="org.springframework.beans">
+		<level value="ERROR" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="ERROR" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="ERROR" />
+	</logger>
+
+	<root level="ERROR">
+		<appender-ref ref="console" />
+	</root>
+	
+	<!-- net.sf.log4jdbc.sql.jdbcapi.DriverSpy -->
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<logger name="jdbc.splonly" level="ERROR" />
+	<logger name="jdbc.sqltiming" level="ERROR" />
+	<logger name="jdbc.audit" level="ERROR" />
+	<logger name="jdbc.resultset" level="ERROR" />
+	<logger name="jdbc.resultsettable" level="ERROR" />
+	<logger name="jdbc.connection" level="ERROR" />
+	
+
+</configuration>
+
+

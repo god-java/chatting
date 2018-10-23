@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mnet.chat.dao.FriendDAO">
+	<insert id="add_friend" parameterType="FriendDTO">
+		INSERT INTO MN_FRIEND VALUES(MN_FRIEND_SEQ.NEXTVAL,#{sender_num},#{receiver_num})
+	</insert>
+	<select id="friend_check" parameterType="FriendDTO" resultType="int">
+		SELECT COUNT(*)  FROM MN_FRIEND WHERE SENDER_NUM=#{sender_num} AND RECEIVER_NUM=#{receiver_num}
+	</select>
+	<delete id="delete_friend" parameterType="FriendDTO">
+		DELETE FROM MN_FRIEND WHERE SENDER_NUM=#{sender_num} AND RECEIVER_NUM=#{receiver_num}
+	</delete>
+	<select id="friend_list" parameterType="int">
+		SELECT * FROM MN_FRIEND MF
+		JOIN MN_MEMBER MM
+		ON MF.RECEIVER_NUM = MM.MEMBER_NUM
+		WHERE SENDER_NUM = #{member_num}
+	</select>
+</mapper>

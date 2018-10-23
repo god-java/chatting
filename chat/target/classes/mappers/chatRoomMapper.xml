@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.mnet.chat.dao.ChatRoomDAO">
+	<select id="overlap_room" resultType="int">
+		select count(*) from chat_room where (sender_num=#{sender_num} and receiver_num=#{receiver_num}) or (sender_num=#{receiver_num} and receiver_num=#{sender_num}) 
+	</select>
+	<insert id="make_room" parameterType="ChatRoomDTO">
+		INSERT INTO CHAT_ROOM VALUES(CHAT_ROOM_SEQ.NEXTVAL,#{sender_num},'test',default,#{sender_num},#{receiver_num},default)
+	</insert>
+	<select id="max_cr_num" resultType="int">
+		select * from(select cr_num from chat_room where sender_num=#{param1} order by cr_made_date desc) where rownum=1
+	</select>
+	<select id="find_cr_num" parameterType="ChatRoomDTO" resultType="int">
+		select cr_num from chat_room where (sender_num=#{sender_num} and receiver_num=#{receiver_num}) or (sender_num=#{receiver_num} and receiver_num=#{sender_num})
+	</select>
+	<select id="room_list" parameterType="int" resultType="ChatRoomDTO">
+			SELECT * FROM CHAT_ROOM CR
+			JOIN CHAT_MEMBER CM
+			ON CR.CR_NUM = CM.CR_NUM
+			JOIN MN_MEMBER MM
+			ON CM.MEMBER_NUM = MM.MEMBER_NUM
+			WHERE CM.MEMBER_NUM=#{member_num}
+			ORDER BY CR_UPDATE_DATE DESC
+	</select>
+	<update id="update_date" parameterType="int">
+		UPDATE CHAT_ROOM SET CR_UPDATE_DATE = (SELECT MAX(SEND_DATE) FROM CHAT_CONTENT WHERE CR_NUM=#{cr_num}) WHERE CR_NUM=#{cr_num}
+	</update>
+</mapper>

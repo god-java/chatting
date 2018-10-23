@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.mnet.chat.dao.MemberDAO">
+	<select id="member_list" parameterType="int" resultType="MemberDTO">
+		SELECT * FROM MN_MEMBER WHERE MEMBER_NUM IN (SELECT RECEIVER_NUM FROM MN_FRIEND WHERE SENDER_NUM=#{member_num})
+	</select>
+	<select id="login_ok" parameterType="MemberDTO" resultType="int">
+		select count(*) from mn_member where id=#{id} and password=#{password}
+	</select>
+	<select id="member_info" parameterType="String" resultType="MemberDTO">
+		select * from mn_member where id=#{id}
+	</select>
+	<select id="member_info_type_num" parameterType="int" resultType="MemberDTO">
+		select * from mn_member where member_num=#{member_num}
+	</select>
+	<select id="find_member" parameterType="String" resultType="MemberDTO">
+		SELECT * FROM MN_MEMBER WHERE ID=#{search} or NAME=#{search}
+	</select>
+	<insert id="join_ok" parameterType="MemberDTO">
+		INSERT INTO MN_MEMBER VALUES(MN_MEMBER_SEQ.NEXTVAL,#{id},#{password},default,#{name})
+	</insert>
+	<select id="overlap_id" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MN_MEMBER WHERE ID=#{id}
+	</select>
+</mapper>

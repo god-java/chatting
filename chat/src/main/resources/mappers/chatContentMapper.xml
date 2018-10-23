@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.mnet.chat.dao.ChatContentDAO">
+	<insert id="add_content">
+		insert into chat_content values(chat_content_seq.nextval,#{cr_num},#{sender_num},#{cc_content},default,#{image_check})
+	</insert>
+	<insert id="cr_add_content" parameterType="ChatContentDTO">
+		INSERT INTO CHAT_CONTENT VALUES(CHAT_CONTENT_SEQ.NEXTVAL, #{cr_num}, #{member_num}, #{cc_content}, default,#{image_check})
+	</insert>
+	<select id="content_list" parameterType="ChatContentDTO" resultType="ChatContentDTO">
+		select * from chat_content cc
+		join mn_member mm
+		on cc.sender_num = mm.member_num
+		where cc.cr_num=(select cr_num from chat_room where (sender_num=#{sender_num} and receiver_num=#{receiver_num}) or (sender_num=#{receiver_num} and receiver_num=#{sender_num}))
+		order by cc_num asc
+	</select>
+	<select id="test_list" parameterType="ChatContentDTO" resultType="ChatContentDTO">
+		select * from(select A.*, rownum rnum from
+		(SELECT * FROM chat_content cc
+		join mn_member mm
+		on cc.sender_num = mm.member_num
+		where cr_num=(select cr_num from chat_room where
+		(sender_num=#{sender_num} and receiver_num=#{receiver_num})or(sender_num=#{receiver_num} and receiver_num=#{sender_num})) order by cc_num asc)A)
+		where rnum between (select count(*) from chat_content where cr_num=(select cr_num from chat_room where
+		(sender_num=#{sender_num} and receiver_num=#{receiver_num})or(sender_num=#{receiver_num} and receiver_num=#{sender_num})))-#{end_row} and
+		(select count(*) from chat_content where cr_num=(select cr_num from chat_room where
+		(sender_num=#{sender_num} and receiver_num=#{receiver_num})or(sender_num=#{receiver_num} and receiver_num=#{sender_num})))-#{start_row}
+	</select>
+	<select id="chat_content_cr_num" parameterType="ChatContentDTO" resultType="ChatContentDTO">
+		SELECT * FROM(SELECT A.*,ROWNUM RNUM FROM (SELECT * FROM CHAT_CONTENT CC
+		JOIN MN_MEMBER MM
+		ON CC.SENDER_NUM = MM.MEMBER_NUM
+		WHERE CC.CR_NUM = #{cr_num}
+		AND CC.SEND_DATE ${inequality_sign} (SELECT ENTER_DATE FROM CHAT_MEMBER WHERE MEMBER_NUM=#{member_num} AND CR_NUM=#{cr_num})
+		ORDER BY CC.CC_NUM ASC)A)
+		WHERE RNUM BETWEEN
+		(SELECT COUNT(*) FROM CHAT_CONTENT WHERE SEND_DATE ${inequality_sign} (SELECT ENTER_DATE FROM CHAT_MEMBER WHERE MEMBER_NUM=#{member_num} AND CR_NUM=#{cr_num}))-#{end_row}
+		AND
+		(SELECT COUNT(*) FROM CHAT_CONTENT WHERE SEND_DATE ${inequality_sign} (SELECT ENTER_DATE FROM CHAT_MEMBER WHERE MEMBER_NUM=#{member_num} AND CR_NUM=#{cr_num}))-#{start_row}
+	</select>
+	<select id="content_info" parameterType="int" resultType="ChatContentDTO">
+		SELECT * FROM CHAT_CONTENT WHERE CC_NUM=(SELECT MAX(CC_NUM) FROM CHAT_CONTENT WHERE CR_NUM=#{cr_num})
+	</select>
+</mapper>

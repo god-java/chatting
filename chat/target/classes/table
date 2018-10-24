@@ -1,0 +1,29 @@
+create table emoticon(
+	emo_num number primary key,
+	emo_name varchar2(200),
+	emo_main_image varchar2(200)
+);
+
+create sequence emoticon_seq;
+
+create table emo_image(
+	emo_image_num number primary key,
+	emo_num number,
+	emo_image varchar2(200),
+	constraint emo_image_fk foreign key(emo_num) references emoticon(emo_num) on delete cascade
+);
+
+create sequence emo_image_seq;
+
+create table emo_buyer(
+	member_num number,
+	emo_num number,
+	constraint emo_buyer_fk foreign key(member_num) references mn_member(member_num) on delete cascade,
+	constraint emo_buyer_fk2 foreign key(emo_num) references emoticon(emo_num) on delete cascade,
+	constraint emo_buyer_pk primary key(member_num, emo_num)
+);
+
+insert into emoticon values(emoticon_seq.nextval,'벌레');
+commit;
+select * from emoticon;
+insert into emo_image values(emo_image_seq.nextval,2,'zz.jpg');

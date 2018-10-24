@@ -5,10 +5,10 @@
     
 <mapper namespace="com.mnet.chat.dao.ChatContentDAO">
 	<insert id="add_content">
-		insert into chat_content values(chat_content_seq.nextval,#{cr_num},#{sender_num},#{cc_content},default,#{image_check})
+		insert into chat_content values(chat_content_seq.nextval,#{cr_num},#{sender_num},#{cc_content},default,#{image_check},#{audio_check},#{file_check})
 	</insert>
 	<insert id="cr_add_content" parameterType="ChatContentDTO">
-		INSERT INTO CHAT_CONTENT VALUES(CHAT_CONTENT_SEQ.NEXTVAL, #{cr_num}, #{member_num}, #{cc_content}, default,#{image_check})
+		INSERT INTO CHAT_CONTENT VALUES(CHAT_CONTENT_SEQ.NEXTVAL, #{cr_num}, #{member_num}, #{cc_content}, default,#{image_check},#{audio_check},#{file_check})
 	</insert>
 	<select id="content_list" parameterType="ChatContentDTO" resultType="ChatContentDTO">
 		select * from chat_content cc

@@ -34,6 +34,8 @@ public class ChatMemberController extends ObjectController {
 		ccdto.setCc_content(mdto.getName()+"님께서 방을 나가셨습니다.");
 		ccdto.setSender_num(0);
 		ccdto.setImage_check("x");
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("x");
 		cmdao.exit_room(cmdto);
 		ccdao.add_content(ccdto);
 		resp.getWriter().print(1);
@@ -50,6 +52,8 @@ public class ChatMemberController extends ObjectController {
 		String[] add_num_spl = add_num.split("/");
 		ccdto.setSender_num(0);
 		ccdto.setImage_check("x");
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("x");
 		ccdto.setCr_num(cmdto.getCr_num());
 		for(int i=0; i<add_num_spl.length; i++) {
 			int member_num = Integer.parseInt(add_num_spl[i].toString());

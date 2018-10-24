@@ -6,6 +6,20 @@ public class ChatContentDTO extends ObjectDTO {
 	private String cc_content;
 	private String send_date;
 	private String image_check;
+	private String audio_check;
+	private String file_check;
+	public String getFile_check() {
+		return file_check;
+	}
+	public void setFile_check(String file_check) {
+		this.file_check = file_check;
+	}
+	public String getAudio_check() {
+		return audio_check;
+	}
+	public void setAudio_check(String audio_check) {
+		this.audio_check = audio_check;
+	}
 	public String getImage_check() {
 		return image_check;
 	}

@@ -41,6 +41,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		ccdto.setSender_num(member_num);
 		ccdto.setCc_content(message);
 		ccdto.setImage_check("x");
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("x");
 		ccdao.add_content(ccdto);
 	}
 	public void add_content2(int member_num, String message, ChatRoomDTO crdto) {
@@ -50,6 +52,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		ccdto.setSender_num(member_num);
 		ccdto.setCc_content(message);
 		ccdto.setImage_check("x");
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("x");
 		ccdao.add_content(ccdto);
 	}
 	public void cr_add_content(int member_num, int cr_num,String type, String content) {
@@ -58,6 +62,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		ccdto.setCr_num(cr_num);
 		ccdto.setCc_content(content);
 		ccdto.setImage_check("x");
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("x");
 		ccdao.cr_add_content(ccdto);
 		crdao.update_date(cr_num);
 		

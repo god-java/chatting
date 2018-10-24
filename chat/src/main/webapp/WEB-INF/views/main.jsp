@@ -48,7 +48,7 @@ $(document).ready(function(){
 	$("#find_friend_body").draggable({scroll:true})
 	$("#view_image_body").draggable({scroll:true})
 	
-	var sock = new WebSocket("ws://211.173.168.66:8282/chat/echo-ws")
+	var sock = new WebSocket("ws://192.168.0.29:8282/chat/echo-ws")
 	var member_num = "${member_num}"
 	var receiver_num = 0
 	var start_row = 0
@@ -463,8 +463,10 @@ $(document).ready(function(){
 					crlist_html += 		"<div style='width:100%; height:35px; text-align:left;'>";
 					if(crlist[i].image_check=="o"){
 						crlist_html += 			"<span style='color:silver; font-weight:bold;'>사진</span>";
+					}else if(crlist[i].audio_check=="o"){
+						crlist_html += 			"<span style='color:silver; font-weight:bold;'>음성파일</span>";
 					}else{
-					crlist_html += 			"<span style='color:silver;'>"+crlist[i].cc_content+"</span>";
+						crlist_html += 			"<span style='color:silver;'>"+crlist[i].cc_content+"</span>";
 					}
 					crlist_html += 		"</div>";
 					crlist_html += 	"</div>";
@@ -934,9 +936,9 @@ $(document).ready(function(){
 						chat_content_html +=		"<img src='resources/profile_image/"+cclist[i].profile_image+"' style='width:40px; height:40px; border-radius:100%;'>";
 						chat_content_html +=	"</div>";
 						chat_content_html +=	"<div style='width:70%; position:relative;'>";
-						if(cclist[i].image_check!='o'){
-							chat_content_html +=		"<div style='position:absolute; width:7px; height:7px; background:white; border:1px solid white; -webkit-transform:rotate(45deg); top:23px; left:-3px;'>";
-							chat_content_html +=		"</div>";							
+						if(cclist[i].image_check!='o' && cclist[i].audio_check != 'o'){
+							chat_content_html +=		"<div style='position:absolute; width:7px; height:7px; background:#FFF612; border:1px solid #FFF612; -webkit-transform:rotate(45deg); top:23px; left:-3px;'>";
+							chat_content_html +=		"</div>";
 						}
 						chat_content_html +=		"<div style='position:absolute; bottom:10px; right:-65px; font-size:11px;'>";
 						chat_content_html +=			""+cclist[i].send_date.substring(10,19)+"";
@@ -944,10 +946,10 @@ $(document).ready(function(){
 						chat_content_html +=		"<div style='width:100%; height:20px; text-align:left; font-weight:bold;'>";
 						chat_content_html +=			""+cclist[i].name+"";
 						chat_content_html +=		"</div>";
-						if(cclist[i].image_check=='o'){
-							chat_content_html +=		"<div style='border-radius:5px;'>";
+						if(cclist[i].image_check=='o' || cclist[i].audio_check == 'o'){
+							chat_content_html +=		"<div style='border-radius:5px;'>";							
 						}else{
-							chat_content_html +=		"<div style='background:white; border-radius:5px;'>";							
+							chat_content_html +=		"<div style='background:#FFF612; border-radius:5px;'>";
 						}
 						chat_content_html +=			"<span style='color:black;; display:block; width:80%; height:80%; text-align:left; position:relative; left:10%; top:10%;'>";
 						chat_content_html +=				""+cclist[i].cc_content+"";
@@ -956,14 +958,16 @@ $(document).ready(function(){
 						chat_content_html +=	"</div>";
 						chat_content_html +="</div>";
 					}else{   
-						chat_content_html +="<div style='width:60%; display:flex; float:right;'>";
+						chat_content_html +="<div style='width:60%; display:flex; float:right; '>";
 						chat_content_html +=	"<div style='width:30%; height:50px;'>";
 						chat_content_html +=		"<img src='resources/profile_image/"+cclist[i].profile_image+"' style='width:40px; height:40px; border-radius:100%;'>";
 						chat_content_html +=	"</div>";
 						chat_content_html +=	"<div style='width:70%; position:relative;'>";
-						if(cclist[i].image_check!='o'){
+						if(cclist[i].image_check!='o' && cclist[i].audio_check != 'o'){
 							chat_content_html +=		"<div style='position:absolute; width:7px; height:7px; background:#FFF612; border:1px solid #FFF612; -webkit-transform:rotate(45deg); top:23px; left:-3px;'>";
 							chat_content_html +=		"</div>";
+						}else{
+							
 						}
 						chat_content_html +=		"<div style='position:absolute; bottom:10px; left:-110px; font-size:11px;'>";
 						chat_content_html +=			""+cclist[i].send_date.substring(10,19)+"";
@@ -971,13 +975,17 @@ $(document).ready(function(){
 						chat_content_html +=		"<div style='width:100%; height:20px; text-align:left; font-weight:bold;'>";
 						chat_content_html +=			"나";
 						chat_content_html +=		"</div>";
-						if(cclist[i].image_check=='o'){
+						if(cclist[i].image_check=='o' || cclist[i].audio_check == 'o'){
 							chat_content_html +=		"<div style='border-radius:5px;'>";							
 						}else{
 							chat_content_html +=		"<div style='background:#FFF612; border-radius:5px;'>";
 						}
-						chat_content_html +=			"<span style='color:black;; display:block; width:80%; height:80%; text-align:left; position:relative; left:10%; top:10%;'>";
-						chat_content_html +=				""+cclist[i].cc_content+"";
+						chat_content_html +=			"<span style='color:black; display:block; width:80%; height:80%; text-align:left; position:relative; left:10%; top:10%;'>";
+						if(cclist[i].file_check=='o'){
+							chat_content_html += "파일 : 누르면 다운로드 <a href='resources/file_upload/"+cclist[i].cc_content+"' download style='color:blue'>"+cclist[i].cc_content+"</a>"
+						}else{
+						chat_content_html +=				""+cclist[i].cc_content+"";									
+						}
 						chat_content_html +=			"</span>";
 						chat_content_html +=		"</div>";
 						chat_content_html +=	"</div>";
@@ -1422,9 +1430,80 @@ $(document).ready(function(){
 		$("#view_image_body").hide()
 		$("#view_close_up").html("")
 	})
+	$(document).on('change','#audio_file',function(){
+		var url = URL.createObjectURL(event.target.files[0])
+		var file_name = $(this).val()
+		var file_name_spl = file_name.split(".")
+		alert(file_name_spl[file_name_spl.length-1])
+		var extension = file_name_spl[file_name_spl.length-1]
+		if(extension!="mp3" && extension!="wav" && extension!="wma"){
+			alert("mp3 / wav / wma 파일만 업로드 가능합니다.")
+			return false
+		}else{
+			$("#audio_view").html("<audio src='"+url+"' controls='controls'>")
+			$("#audio_send_body").show()
+			
+		}
+	})
+	$(document).on('click','#audio_send_btn',function(){
+		var fd = new FormData($("form")[1])
+		fd.append("cr_num",cr_num)
+		$.ajax({
+			url : 'send_audio_ok',
+			contentType : false,
+			processData : false,
+			data : fd,
+			type : 'post',
+			success : function(data){
+				var res = data
+				$("#image_send_body").hide()
+				$("html").append("<div id='audio_upload_loading' style='width:100%; height:100%; position:absolute; top:0; left:0; background:black; z-index:9999; display:none;'><span style='position:absolute; top:40%; left:30%; font-size:100px; color:white;'>음성파일 업로드중...</span></div>")
+				$("#audio_upload_loading").fadeTo('slow','0.5')
+				setTimeout(function(){
+					sock.send("cr_chat/"+$("#chat_content").val()+"/"+member_num+"/"+cr_num+"/image_send")
+					crlist_content()
+					update_chat_content() 
+					$("#audio_upload_loading").remove()
+				},4000)
+			}
+		})
+	})
+	$(document).on('click','#audio_send_close',function(){
+		$("#audio_file").val("")
+		$("#audio_send_body").hide()
+	})
+	$("#audio").draggable({scroll:true})
+	$(document).on('change','#file2',function(){
+		z_index++
+		var file_name = $(this).val()
+		var file_name_spl = file_name.split("\\")
+		$("#file_view").html(file_name_spl[2])
+		$("#file_send_body").css({'z-index':z_index})
+		$("#file_send_body").show()
+	})
+	$(document).on('click','#file_send_btn',function(){
+		var fd = new FormData($("form")[2])
+		fd.append("cr_num",cr_num)
+		$.ajax({
+			url : 'send_file_ok',
+			processData : false,
+			contentType : false,
+			data : fd,
+			type : 'post',
+			success : function(data){
+				var res = data
+				
+			},
+			error : function(error){
+				alert(error.data)
+			}
+		})
+	})
 })
 </script>
 <body>
+<a href="resources/image_upload/2017062212392915633-540x689.jpg" download>dd</a>
+</audio>
 <div id="view_image_body" style="width:800px; height:700px; position:fixed; top:5%; left:10%; border:1px solid black; display:none; background:white;">
 	<div style="width:100%; height:30px; position:relative; background:#662500; line-height:30px;">
 		<div id="view_close_up_close" style="width:30px; height:30px; position:absolute; top:0; right:0; font-weight:bolder; color:white; cursor:pointer;">
@@ -1449,6 +1528,38 @@ $(document).ready(function(){
 		</div>
 		<div id="send_body" style="width:100%; height:50px; line-height:50px;">
 			<input type="button" id="image_send_btn" value="보내기" style="position:relative; width:100px; height:30px; top:5px; border:1px solid #662500; color:white; background:#662500; font-weight:bolder; border-radius:5px; cursor:pointer">
+		</div>
+	</div>
+</div>
+<div id="audio_send_body" style="width:350px; height:150px; border:1px solid black; top:20%; left:20%; position:fixed; display:none; background:white;">
+	<div style="width:100%; height:30px; position:relative; background:#662500; line-height:30px;">
+		<div id="audio_send_close" style="width:30px; height:30px; position:absolute; top:0; right:0; font-weight:bolder; color:white; cursor:pointer;">
+			X
+		</div>
+		<span style="font-weight:bolder; color:white;">음성파일 보내기</span>
+	</div>
+	<div style="width:90%; height:80%; position:relative; top:5%; left:5%;">
+		<div id="audio_view" style="width:100%; height:70px; border:1px solid gray;">
+		
+		</div>
+		<div id="send_body" style="width:100%; height:50px; line-height:50px;">
+			<input type="button" id="audio_send_btn" value="보내기" style="position:relative; width:100px; height:30px; top:5px; border:1px solid #662500; color:white; background:#662500; font-weight:bolder; border-radius:5px; cursor:pointer">
+		</div>
+	</div>
+</div>
+<div id="file_send_body" style="width:350px; height:150px; border:1px solid black; top:20%; left:20%; position:fixed; display:none; background:white;">
+	<div style="width:100%; height:30px; position:relative; background:#662500; line-height:30px;">
+		<div id="file_send_close" style="width:30px; height:30px; position:absolute; top:0; right:0; font-weight:bolder; color:white; cursor:pointer;">
+			X
+		</div>
+		<span style="font-weight:bolder; color:white;">파일 보내기</span>
+	</div>
+	<div style="width:90%; height:80%; position:relative; top:5%; left:5%;">
+		<div id="file_view" style="width:100%; height:70px; line-height:70px; font-weight:bolder; border:1px solid gray;">
+		
+		</div>
+		<div id="file_body" style="width:100%; height:50px; line-height:50px;">
+			<input type="button" id="file_send_btn" value="보내기" style="position:relative; width:100px; height:30px; top:5px; border:1px solid #662500; color:white; background:#662500; font-weight:bolder; border-radius:5px; cursor:pointer">
 		</div>
 	</div>
 </div>
@@ -1489,6 +1600,18 @@ $(document).ready(function(){
 						<label for="file" style="font-weight:bold; display:block; width:100%; height:100%; cursor:pointer;">사진 보내기</label>
 					</form>
 				</div>
+				<div id="send_audio" class="menu_btn" param="" style="width:100%; height:30px; line-height:30px; cursor:pointer;">
+					<form id="form2" action="send_audio" method="post" enctype="multipart/form-data">
+						<input type="file" name="audio_file" id="audio_file" style="display:none;">
+						<label for="audio_file" style="font-weight:bold; display:block; width:100%; height:100%; cursor:pointer;">음성파일 보내기</label>
+					</form>
+				</div>
+				<div id="send_file" class="menu_btn" param="" style="width:100%; height:30px; line-height:30px; cursor:pointer;">
+					<form id="form3" action="send_file" method="post" enctype="multipart/form-data">
+						<input type="file" name="file2" id="file2" style="display:none;">
+						<label for="file2" style="font-weight:bold; display:block; width:100%; height:100%; cursor:pointer;">파일 보내기</label>
+					</form>
+				</div>
 			</div>
 		</div>
 		<div id="close_room" style="width:30px; height:30px; position:absolute; right:0; cursor:pointer; color:white; font-weight:bolder; z-index:50;">
@@ -1502,6 +1625,22 @@ $(document).ready(function(){
 	<div id="chat_center_box">
 		<div id="chat_content_box">
 		
+		</div>
+		<div style="width:100%; height:30px; line-height:30px; position:relative;">
+			
+			<div style="width:300px; height:300px; position:absolute; border:1px solid gray; background:white;">
+				<div style="width:90%; height:90%; position:relative; top:5%; left:5%;">
+					<div style="width:100%; height:50px; border:1px solid gray;">
+						<c:if test="${member_num!=null }">
+							<c:forEach var="elist" items="${elist }">
+								<div style="width:50px; height:50x; border:1px solid black; display:inline-block;">
+									<img src="resources/emoticon/${elist.emo_main_image }" style="width:100%; height:100%; border-radius:100%;">
+								</div>
+							</c:forEach>
+						</c:if>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div id="chat_input_box">
 			<div id="chat_send_box">

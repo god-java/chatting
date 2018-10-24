@@ -124,11 +124,59 @@ public class ChatContentController extends ObjectController {
 		ccdto.setSender_num(member_num);
 		ccdto.setCc_content("<img src=\"resources/image_upload/"+file_name+"\" class=\"image_name\" style=\"width:100px; height: 100px; border-radius:10px; cursor:pointer;\" param=\""+file_name+"\">");
 		ccdto.setImage_check("o");
-		String path = "C:\\Users\\wnstn\\Desktop\\chat_project\\chat (3) (3)\\src\\main\\webapp\\resources\\image_upload\\";
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("x");
+		String path = "C:\\Users\\user\\git\\chatting\\chat\\src\\main\\webapp\\resources\\image_upload\\";
 		File f = new File(path+file_name);
 		file.transferTo(f);
 		ccdao.cr_add_content(ccdto);
 		System.err.println(ccdto.getSender_num());
+		resp.getWriter().print(1);
+	}
+	@RequestMapping(value="/send_audio_ok", produces="application/text; charset=utf-8")
+	public void send_audio_ok(HttpServletResponse resp, HttpSession s, @RequestParam(value="audio_file") MultipartFile file,int cr_num) throws IllegalStateException, IOException {
+		int member_num = Integer.parseInt(s.getAttribute("member_num").toString());
+		Date date = new Date();
+		ccdao = sst.getMapper(ChatContentDAO.class);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+		String time = sdf.format(date);
+		String file_name = time+file.getOriginalFilename();
+		String path = "C:\\Users\\user\\git\\chatting\\chat\\src\\main\\webapp\\resources\\audio_upload\\";
+		File f = new File(path+file_name);
+		file.transferTo(f);
+		ChatContentDTO ccdto = new ChatContentDTO();
+		ccdto.setCr_num(cr_num);
+		ccdto.setMember_num(member_num);
+		ccdto.setSender_num(member_num);
+		ccdto.setCc_content("<audio src=\"resources/audio_upload/"+file_name+"\" class=\"audio_name\" controls=\"controls\" style=\"width:80px;\" param=\""+file_name+"\"></audio>");
+		ccdto.setImage_check("x");
+		ccdto.setAudio_check("o");
+		ccdto.setFile_check("x");
+		ccdao.cr_add_content(ccdto);
+		resp.getWriter().print(1);
+		
+	}
+	@RequestMapping(value="/send_file_ok", produces="application/text; charset=utf-8")
+	public void send_file_ok(HttpServletResponse resp, HttpSession s, @RequestParam(value="file2") MultipartFile file,int cr_num) throws IllegalStateException, IOException {
+		int member_num = Integer.parseInt(s.getAttribute("member_num").toString());
+		Date date = new Date();
+		System.out.println("~~~~");
+		ccdao = sst.getMapper(ChatContentDAO.class);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+		String time = sdf.format(date);
+		String file_name = time+file.getOriginalFilename();
+		String path = "C:\\Users\\user\\git\\chatting\\chat\\src\\main\\webapp\\resources\\file_upload\\";
+		File f = new File(path+file_name);
+		file.transferTo(f);
+		ChatContentDTO ccdto = new ChatContentDTO();
+		ccdto.setCr_num(cr_num);
+		ccdto.setMember_num(member_num);
+		ccdto.setSender_num(member_num);
+		ccdto.setCc_content(file_name);
+		ccdto.setImage_check("x");
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("o");
+		ccdao.cr_add_content(ccdto);
 		resp.getWriter().print(1);
 	}
 }

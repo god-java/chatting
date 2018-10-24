@@ -1,7 +1,9 @@
 package com.mnet.chat;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,6 +30,9 @@ public class ChatRoomController extends ObjectController {
 		crdao = sst.getMapper(ChatRoomDAO.class);
 		cmdao = sst.getMapper(ChatMemberDAO.class);
 		ccdao = sst.getMapper(ChatContentDAO.class);
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String today = sdf.format(date);
 		String json="";
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayList<ChatRoomDTO> crlist = crdao.room_list(member_num);
@@ -35,7 +40,11 @@ public class ChatRoomController extends ObjectController {
 		for(ChatRoomDTO crdto : crlist) {
 			ArrayList<ChatMemberDTO> list = cmdao.cm_member_info2(crdto.getCr_num(), member_num);
 			ChatContentDTO ccdto = ccdao.content_info(crdto.getCr_num());
+			if(ccdto.getSend_date().substring(0, 10).equals(today)) {
+				ccdto.setSend_date(ccdto.getSend_date().substring(11));
+			}
 			crdto.setImage_check(ccdto.getImage_check());
+			crdto.setAudio_check(ccdto.getAudio_check());
 			String cr_name = "";
 			int person = 0;											//채팅방에 속해있는 인원 수
 			for(ChatMemberDTO dto : list) {
@@ -108,6 +117,8 @@ public class ChatRoomController extends ObjectController {
 		ccdto.setSender_num(0);
 		ccdto.setCc_content("대화방이 생성되었습니다.");
 		ccdto.setImage_check("x");
+		ccdto.setAudio_check("x");
+		ccdto.setFile_check("x");
 		for(int i=0; i<add_num_spl.length; i++) {
 			System.err.println(add_num_spl[i]);
 			int member_num2 = Integer.parseInt(add_num_spl[i].toString());

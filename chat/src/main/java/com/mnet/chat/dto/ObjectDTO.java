@@ -23,6 +23,55 @@ public class ObjectDTO {
 	private String name;
 	private String inequality_sign;
 	private String image_check;
+	private String audio_check;
+	private String file_check;
+	private int emo_num;
+	private String emo_image;
+	private int emo_image_num;
+	private String emo_name;
+	private String emo_main_image;
+	public String getEmo_main_image() {
+		return emo_main_image;
+	}
+	public void setEmo_main_image(String emo_main_image) {
+		this.emo_main_image = emo_main_image;
+	}
+	public void setEmo_name(String emo_name) {
+		this.emo_name = emo_name;
+	}
+	public String getEmo_name() {
+		return emo_name;
+	}
+	public int getEmo_num() {
+		return emo_num;
+	}
+	public void setEmo_num(int emo_num) {
+		this.emo_num = emo_num;
+	}
+	public String getEmo_image() {
+		return emo_image;
+	}
+	public void setEmo_image(String emo_image) {
+		this.emo_image = emo_image;
+	}
+	public int getEmo_image_num() {
+		return emo_image_num;
+	}
+	public void setEmo_image_num(int emo_image_num) {
+		this.emo_image_num = emo_image_num;
+	}
+	public String getFile_check() {
+		return file_check;
+	}
+	public void setFile_check(String file_check) {
+		this.file_check = file_check;
+	}
+	public String getAudio_check() {
+		return audio_check;
+	}
+	public void setAudio_check(String audio_check) {
+		this.audio_check = audio_check;
+	}
 	public String getImage_check() {
 		return image_check;
 	}

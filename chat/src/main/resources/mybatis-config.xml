@@ -10,5 +10,8 @@
 		<typeAlias type="com.mnet.chat.dto.ChatMemberDTO" alias="ChatMemberDTO"/>
 		<typeAlias type="com.mnet.chat.dto.ChatRoomDTO" alias="ChatRoomDTO"/>
 		<typeAlias type="com.mnet.chat.dto.FriendDTO" alias="FriendDTO"/>
+		<typeAlias type="com.mnet.chat.dto.EmoticonDTO" alias="EmoticonDTO"/>
+		<typeAlias type="com.mnet.chat.dto.EmoImageDTO" alias="EmoImageDTO"/>
+		<typeAlias type="com.mnet.chat.dto.EmoBuyerDTO" alias="EmoBuyerDTO"/>
 	</typeAliases>
 </configuration>

@@ -10,38 +10,38 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.sql.test" level="ERROR">
+	<logger name="com.sql.test" level="debug">
 	</logger>
 
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="ERROR" />
+		<level value="INFO" />
 	</logger>
 	
 	<logger name="org.springframework.beans">
-		<level value="ERROR" />
+		<level value="INFO" />
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="ERROR" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="ERROR" />
+		<level value="INFO" />
 	</logger>
 
-	<root level="ERROR">
+	<root level="debug">
 		<appender-ref ref="console" />
 	</root>
 	
 	<!-- net.sf.log4jdbc.sql.jdbcapi.DriverSpy -->
 	<include resource="org/springframework/boot/logging/logback/base.xml" />
-	<logger name="jdbc.splonly" level="ERROR" />
-	<logger name="jdbc.sqltiming" level="ERROR" />
-	<logger name="jdbc.audit" level="ERROR" />
+	<logger name="jdbc.splonly" level="DEBUG" />
+	<logger name="jdbc.sqltiming" level="INFO" />
+	<logger name="jdbc.audit" level="WARN" />
 	<logger name="jdbc.resultset" level="ERROR" />
-	<logger name="jdbc.resultsettable" level="ERROR" />
-	<logger name="jdbc.connection" level="ERROR" />
+	<logger name="jdbc.resultsettable" level="DEBUG" />
+	<logger name="jdbc.connection" level="INFO" />
 	
 
 </configuration>

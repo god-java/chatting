@@ -83,8 +83,8 @@ $(document).ready(function(){
 	
 	
 	
-	
-	
+	var i = 1000
+	console.log('>>>>>>>>>>>>>> : '+i);
 	
 	
 	
